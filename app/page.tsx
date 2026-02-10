@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,9 +27,25 @@ export default function Home() {
   const [activeResult, setActiveResult] = useState<DigestResult | null>(null);
   const [activeUrl, setActiveUrl] = useState("");
   const [error, setError] = useState("");
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   const { history, isHydrated, addToHistory, removeFromHistory, clearHistory } =
     useHistory();
+
+  // Check if user has visited before
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      setShowWelcomeModal(true);
+    }
+  }, []);
+
+  const handleWelcomeModalClose = (open: boolean) => {
+    setShowWelcomeModal(open);
+    if (!open) {
+      localStorage.setItem('hasVisited', 'true');
+    }
+  };
 
   const handleGenerate = async () => {
     if (!url.trim()) {
@@ -97,10 +113,17 @@ export default function Home() {
             <h1 className="text-3xl font-bold tracking-tight">Smart Digest</h1>
           </div>
           <div className="flex items-center gap-2">
-            <HowToUse />
+            <HowToUse showTrigger />
             <ModeToggle />
           </div>
         </div>
+
+        {/* One-time Welcome Modal */}
+        <HowToUse 
+          open={showWelcomeModal} 
+          onOpenChange={handleWelcomeModalClose}
+          showTrigger={false}
+        />
 
         {/* Hero Section - Input & Active Result */}
         <div className="max-w-4xl mx-auto mb-16">

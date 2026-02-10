@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,17 +11,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export function HowToUse() {
-  const [open, setOpen] = useState(false);
+interface HowToUseProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  showTrigger?: boolean;
+}
+
+export function HowToUse({ open, onOpenChange, showTrigger = true }: HowToUseProps) {
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="hover:scale-105 hover:shadow-md transition-all duration-200">
-          <HelpCircle className="h-5 w-5 transition-transform duration-200 hover:rotate-12" />
-          <span className="sr-only">How to use</span>
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {showTrigger && (
+        <DialogTrigger asChild>
+          <Button variant="outline" size="icon" className="hover:scale-105 hover:shadow-md transition-all duration-200">
+            <HelpCircle className="h-5 w-5 transition-transform duration-200 hover:rotate-12" />
+            <span className="sr-only">How to use</span>
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>How to Use Smart Digest</DialogTitle>
