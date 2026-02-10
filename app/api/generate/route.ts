@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     // Generate structured summary using AI
     const result = await generateObject({
-      model: google("gemini-1.5-flash"),
+      model: google("gemini-2.5-flash"),
       schema: digestSchema,
       prompt: `Analyze the following webpage content and create a comprehensive digest.
 
