@@ -56,7 +56,7 @@ export function InteractiveQuiz({ questions }: InteractiveQuizProps) {
           <CardTitle>Interactive Quiz</CardTitle>
           {isSubmitted && (
             <div className="flex items-center gap-4">
-              <div className="text-sm font-semibold">
+              <div className="text-sm font-semibold animate-in fade-in-50 slide-in-from-top-2 duration-500">
                 Score: {score}/{questions.length} (
                 {Math.round((score / questions.length) * 100)}%)
               </div>
@@ -64,9 +64,9 @@ export function InteractiveQuiz({ questions }: InteractiveQuizProps) {
                 onClick={handleRetake}
                 size="sm"
                 variant="outline"
-                className="gap-2"
+                className="gap-2 hover:scale-105 transition-all duration-200"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4 transition-transform duration-300 hover:rotate-180" />
                 Retake
               </Button>
             </div>
@@ -102,15 +102,15 @@ export function InteractiveQuiz({ questions }: InteractiveQuizProps) {
                       }
                       disabled={isSubmitted}
                       className={`
-                        w-full text-left px-4 py-3 rounded-lg border-2 transition-all
+                        w-full text-left px-4 py-3 rounded-lg border-2 transition-all duration-200
                         ${
                           isSelected && !isSubmitted
-                            ? "border-primary bg-primary/10"
-                            : "border-border hover:border-primary/50"
+                            ? "border-primary bg-primary/10 scale-[1.02] shadow-lg shadow-primary/20 ring-2 ring-primary/30"
+                            : "border-border hover:border-primary/50 hover:scale-[1.01] hover:shadow-sm"
                         }
-                        ${showCorrect ? "border-green-500 bg-green-500/10" : ""}
-                        ${showIncorrect ? "border-red-500 bg-red-500/10" : ""}
-                        ${isSubmitted ? "cursor-not-allowed" : "cursor-pointer"}
+                        ${showCorrect ? "border-green-500 bg-green-500/10 animate-pulse" : ""}
+                        ${showIncorrect ? "border-red-500 bg-red-500/10 animate-pulse" : ""}
+                        ${isSubmitted ? "cursor-not-allowed" : "cursor-pointer hover:bg-accent/50"}
                       `}
                     >
                       <div className="flex items-center justify-between gap-2">

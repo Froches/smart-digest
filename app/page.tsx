@@ -92,8 +92,8 @@ export default function Home() {
       <div className="container max-w-7xl mx-auto px-4 py-8">
         {/* Top Navigation */}
         <div className="flex items-center justify-between mb-12">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-7 h-7 text-primary" />
+          <div className="flex items-center gap-2 group/logo cursor-default">
+            <Sparkles className="w-7 h-7 text-primary transition-all duration-300 group-hover/logo:rotate-12 group-hover/logo:scale-110 group-hover/logo:text-primary/80" />
             <h1 className="text-3xl font-bold tracking-tight">Smart Digest</h1>
           </div>
           <div className="flex items-center gap-2">
@@ -113,18 +113,18 @@ export default function Home() {
           </div>
 
           {/* Input Section */}
-          <Card className="mb-8 border-border/50 shadow-lg">
+          <Card className="mb-8 border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
             <CardContent className="pt-6">
               <div className="flex gap-3">
-                <div className="relative flex-1">
-                  <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <div className="relative flex-1 group/input">
+                  <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-all duration-200 group-hover/input:text-primary group-hover/input:scale-110" />
                   <Input
                     type="url"
                     placeholder="Paste a technical article URL..."
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
-                    className="pl-10"
+                    className="pl-10 transition-all duration-200 focus:ring-2 focus:ring-primary/20"
                     disabled={loading}
                   />
                 </div>
@@ -132,7 +132,7 @@ export default function Home() {
                   onClick={handleGenerate}
                   disabled={loading}
                   size="lg"
-                  className="min-w-32 gap-2"
+                  className="min-w-32 gap-2 hover:scale-105 hover:shadow-lg transition-all duration-200"
                 >
                   {loading ? (
                     <>
@@ -141,14 +141,21 @@ export default function Home() {
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4" />
+                      <Sparkles className="w-4 h-4 transition-transform duration-200 hover:rotate-12" />
                       Generate
                     </>
                   )}
                 </Button>
               </div>
               {error && (
-                <p className="text-sm text-destructive mt-3">{error}</p>
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-sm text-destructive mt-3 flex items-center gap-2"
+                >
+                  <span className="animate-pulse">⚠️</span>
+                  {error}
+                </motion.p>
               )}
             </CardContent>
           </Card>
@@ -171,16 +178,16 @@ export default function Home() {
                     onClick={handleClearActive}
                     variant="outline"
                     size="sm"
-                    className="gap-2"
+                    className="gap-2 hover:scale-105 hover:border-destructive hover:text-destructive transition-all duration-200"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-4 h-4 transition-transform duration-200 hover:rotate-12" />
                     Clear
                   </Button>
                 </div>
 
                 {/* URL Display */}
                 {activeUrl && (
-                  <Card className="border-primary/20 bg-primary/5 shadow-sm ring-2 ring-primary/10">
+                  <Card className="border-primary/20 bg-primary/5 shadow-sm ring-2 ring-primary/10 hover:shadow-md hover:ring-primary/20 transition-all duration-300">
                     <CardContent className="pt-4 pb-4">
                       <p className="text-sm text-muted-foreground break-all">
                         <span className="font-medium text-foreground">
@@ -193,7 +200,7 @@ export default function Home() {
                 )}
 
                 {/* Title */}
-                <Card className="border-border/50 shadow-md">
+                <Card className="border-border/50 shadow-md hover:shadow-lg hover:border-border transition-all duration-300">
                   <CardHeader>
                     <CardTitle className="text-2xl">
                       {activeResult.title}
@@ -202,36 +209,45 @@ export default function Home() {
                 </Card>
 
                 {/* Summary */}
-                <Card className="border-border/50 shadow-md">
+                <Card className="border-border/50 shadow-md hover:shadow-lg hover:border-border transition-all duration-300">
                   <CardHeader>
                     <CardTitle className="text-xl">Executive Summary</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     {activeResult.summary.map((paragraph, idx) => (
-                      <p
+                      <motion.p
                         key={idx}
-                        className="text-muted-foreground leading-relaxed"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.1, duration: 0.3 }}
+                        className="text-muted-foreground leading-relaxed hover:text-foreground transition-colors duration-200"
                       >
                         {paragraph}
-                      </p>
+                      </motion.p>
                     ))}
                   </CardContent>
                 </Card>
 
                 {/* Key Takeaways */}
-                <Card className="border-border/50 shadow-md">
+                <Card className="border-border/50 shadow-md hover:shadow-lg hover:border-border transition-all duration-300">
                   <CardHeader>
                     <CardTitle className="text-xl">Key Concepts</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3">
                       {activeResult.keyTakeaways.map((takeaway, idx) => (
-                        <li key={idx} className="flex items-start gap-3">
-                          <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                          <span className="text-muted-foreground">
+                        <motion.li
+                          key={idx}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1, duration: 0.3 }}
+                          className="flex items-start gap-3 group/item cursor-default hover:translate-x-1 transition-transform duration-200"
+                        >
+                          <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5 transition-all duration-200 group-hover/item:scale-110 group-hover/item:text-primary/80" />
+                          <span className="text-muted-foreground group-hover/item:text-foreground transition-colors duration-200">
                             {takeaway}
                           </span>
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
                   </CardContent>
@@ -248,8 +264,8 @@ export default function Home() {
         {isHydrated && history.length > 0 && (
           <div className="mt-16">
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <History className="w-6 h-6 text-primary" />
+              <div className="flex items-center gap-2 group/history cursor-default">
+                <History className="w-6 h-6 text-primary transition-all duration-300 group-hover/history:scale-110 group-hover/history:rotate-12" />
                 <h2 className="text-2xl font-bold">Previous Digests</h2>
                 <span className="text-muted-foreground text-sm">
                   ({history.length})
@@ -259,9 +275,9 @@ export default function Home() {
                 onClick={clearHistory}
                 variant="outline"
                 size="sm"
-                className="gap-2"
+                className="gap-2 hover:scale-105 hover:border-destructive hover:text-destructive transition-all duration-200"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-4 h-4 transition-transform duration-200 hover:rotate-12" />
                 Clear All
               </Button>
             </div>

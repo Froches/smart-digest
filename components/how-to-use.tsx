@@ -18,8 +18,8 @@ export function HowToUse() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <HelpCircle className="h-5 w-5" />
+        <Button variant="outline" size="icon" className="hover:scale-105 hover:shadow-md transition-all duration-200">
+          <HelpCircle className="h-5 w-5 transition-transform duration-200 hover:rotate-12" />
           <span className="sr-only">How to use</span>
         </Button>
       </DialogTrigger>
@@ -32,8 +32,8 @@ export function HowToUse() {
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
-          <div className="flex gap-4">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+          <div className="flex gap-4 group/step cursor-default">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold transition-all duration-300 group-hover/step:scale-110 group-hover/step:shadow-lg group-hover/step:shadow-primary/50">
               1
             </div>
             <div className="space-y-1">
@@ -45,8 +45,8 @@ export function HowToUse() {
             </div>
           </div>
 
-          <div className="flex gap-4">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+          <div className="flex gap-4 group/step cursor-default">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold transition-all duration-300 group-hover/step:scale-110 group-hover/step:shadow-lg group-hover/step:shadow-primary/50">
               2
             </div>
             <div className="space-y-1">
@@ -58,8 +58,8 @@ export function HowToUse() {
             </div>
           </div>
 
-          <div className="flex gap-4">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+          <div className="flex gap-4 group/step cursor-default">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold transition-all duration-300 group-hover/step:scale-110 group-hover/step:shadow-lg group-hover/step:shadow-primary/50">
               3
             </div>
             <div className="space-y-1">
@@ -71,8 +71,8 @@ export function HowToUse() {
             </div>
           </div>
 
-          <div className="flex gap-4">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+          <div className="flex gap-4 group/step cursor-default">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold transition-all duration-300 group-hover/step:scale-110 group-hover/step:shadow-lg group-hover/step:shadow-primary/50">
               4
             </div>
             <div className="space-y-1">
@@ -85,8 +85,8 @@ export function HowToUse() {
             </div>
           </div>
 
-          <div className="flex gap-4">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+          <div className="flex gap-4 group/step cursor-default">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold transition-all duration-300 group-hover/step:scale-110 group-hover/step:shadow-lg group-hover/step:shadow-primary/50">
               5
             </div>
             <div className="space-y-1">

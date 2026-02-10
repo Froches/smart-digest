@@ -37,7 +37,7 @@ export function HistoryCard({ item, onView, onDelete }: HistoryCardProps) {
       transition={{ duration: 0.3 }}
       layout
     >
-      <Card className="border-border/50 hover:border-border transition-all hover:shadow-lg group h-full flex flex-col">
+      <Card className="border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 group h-full flex flex-col cursor-pointer">
         <CardHeader className="flex-1">
           <div className="flex items-start justify-between gap-2 mb-2">
             <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors">
@@ -57,13 +57,13 @@ export function HistoryCard({ item, onView, onDelete }: HistoryCardProps) {
             onClick={() => onView(item)}
             variant="default"
             size="sm"
-            className="flex-1"
+            className="flex-1 hover:scale-105 transition-transform duration-200"
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
             View
           </Button>
-          <Button onClick={() => onDelete(item.id)} variant="outline" size="sm">
-            <Trash2 className="w-4 h-4" />
+          <Button onClick={() => onDelete(item.id)} variant="outline" size="sm" className="hover:scale-105 hover:border-destructive hover:text-destructive transition-all duration-200">
+            <Trash2 className="w-4 h-4 transition-transform duration-200 hover:rotate-12" />
           </Button>
         </CardContent>
       </Card>
