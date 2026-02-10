@@ -17,13 +17,20 @@ interface HowToUseProps {
   showTrigger?: boolean;
 }
 
-export function HowToUse({ open, onOpenChange, showTrigger = true }: HowToUseProps) {
-
+export function HowToUse({
+  open,
+  onOpenChange,
+  showTrigger = true,
+}: HowToUseProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {showTrigger && (
         <DialogTrigger asChild>
-          <Button variant="outline" size="icon" className="hover:scale-105 hover:shadow-md transition-all duration-200">
+          <Button
+            variant="outline"
+            size="icon"
+            className="hover:scale-105 hover:shadow-md transition-all duration-200"
+          >
             <HelpCircle className="h-5 w-5 transition-transform duration-200 hover:rotate-12" />
             <span className="sr-only">How to use</span>
           </Button>

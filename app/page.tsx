@@ -34,7 +34,7 @@ export default function Home() {
 
   // Check if user has visited before
   useEffect(() => {
-    const hasVisited = localStorage.getItem('hasVisited');
+    const hasVisited = localStorage.getItem("hasVisited");
     if (!hasVisited) {
       setShowWelcomeModal(true);
     }
@@ -43,7 +43,7 @@ export default function Home() {
   const handleWelcomeModalClose = (open: boolean) => {
     setShowWelcomeModal(open);
     if (!open) {
-      localStorage.setItem('hasVisited', 'true');
+      localStorage.setItem("hasVisited", "true");
     }
   };
 
@@ -119,8 +119,8 @@ export default function Home() {
         </div>
 
         {/* One-time Welcome Modal */}
-        <HowToUse 
-          open={showWelcomeModal} 
+        <HowToUse
+          open={showWelcomeModal}
           onOpenChange={handleWelcomeModalClose}
           showTrigger={false}
         />
