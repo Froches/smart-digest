@@ -5,10 +5,13 @@ A modern web application that transforms any article into a structured summary w
 ## ✨ Features
 
 - **URL-based Content Extraction**: Simply paste any article URL
-- **AI-Powered Summaries**: Get concise, structured summaries with key takeaways
+- **AI-Powered Summaries**: Get concise, structured summaries with key takeaways powered by Google Gemini
 - **Interactive Quiz**: Test your understanding with 3 auto-generated questions
+- **Persistent History**: All digests automatically saved to localStorage with full browsing capability
+- **Smooth Animations**: Framer Motion powered transitions and effects
 - **Dark Mode**: Beautiful Linear.app-inspired dark interface
 - **Type-Safe**: Built with TypeScript and Zod schema validation
+- **Responsive Design**: Optimized for mobile, tablet, and desktop
 
 ## 🚀 Tech Stack
 
@@ -16,17 +19,19 @@ A modern web application that transforms any article into a structured summary w
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **UI Components**: Shadcn UI
-- **AI**: Vercel AI SDK + OpenAI (gpt-4o-mini)
+- **AI**: Vercel AI SDK + Google Gemini (gemini-1.5-flash)
 - **Scraping**: Cheerio
 - **Validation**: Zod
 - **Icons**: Lucide React
+- **Animations**: Framer Motion
+- **Storage**: localStorage (client-side persistence)
 
 ## 📦 Installation
 
 ### Prerequisites
 
 - Node.js 18+ or Bun
-- OpenAI API Key ([Get one here](https://platform.openai.com/api-keys))
+- Google Generative AI API Key ([Get one here](https://aistudio.google.com/app/apikey))
 
 ### Setup
 
@@ -46,20 +51,18 @@ yarn install
 2. **Install required packages**:
 
 ```bash
-# AI SDK and OpenAI
-npm install ai @ai-sdk/openai zod
+# AI SDK and Google Generative AI
+pnpm install ai @ai-sdk/google zod
 
 # Scraping
-npm install cheerio
-npm install -D @types/cheerio
+pnpm install cheerio
 
-# Icons
-npm install lucide-react
+# Icons and Animations
+pnpm install lucide-react framer-motion
 
 # Shadcn UI dependencies
-npm install class-variance-authority clsx tailwind-merge
-npm install @radix-ui/react-slot
-npm install -D tailwindcss-animate
+pnpm install class-variance-authority clsx tailwind-merge
+pnpm install @radix-ui/react-slot @radix-ui/react-scroll-area
 ```
 
 3. **Set up environment variables**:
@@ -68,16 +71,16 @@ npm install -D tailwindcss-animate
 # Copy the example env file
 cp .env.example .env.local
 
-# Edit .env.local and add your OpenAI API key
-OPENAI_API_KEY=sk-your-actual-openai-api-key-here
+# Edit .env.local and add your Google Generative AI API key
+GOOGLE_GENERATIVE_AI_API_KEY=your-actual-google-api-key-here
 ```
 
 4. **Run the development server**:
 
 ```bash
-npm run dev
-# or
 pnpm dev
+# or
+npm run dev
 # or
 yarn dev
 ```
@@ -93,7 +96,10 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 3. Wait for the AI to process and analyze the content
 4. Review the summary and key takeaways
 5. Take the quiz to test your understanding
-6. Submit to see your score!
+6. Submit to see your score
+7. **Browse your history** - All digests are automatically saved
+8. Click "View" on any history card to restore it to the active slot
+9. Use "Clear" to remove the active digest or "Clear All" for history
 
 ## 📁 Project Structure
 
@@ -102,15 +108,19 @@ smart-digest/
 ├── app/
 │   ├── api/
 │   │   └── generate/
-│   │       └── route.ts          # API endpoint for content processing
+│   │       └── route.ts          # API endpoint (Google Gemini integration)
 │   ├── layout.tsx                # Root layout with dark mode
-│   ├── page.tsx                  # Main page component
+│   ├── page.tsx                  # Main page with history support
 │   └── globals.css               # Global styles
 ├── components/
+│   ├── history-card.tsx          # History item card component
 │   └── ui/                       # Shadcn UI components
 │       ├── button.tsx
 │       ├── card.tsx
-│       └── input.tsx
+│       ├── input.tsx
+│       └── scroll-area.tsx
+├── hooks/
+│   └── useHistory.ts             # Custom hook for localStorage
 ├── lib/
 │   ├── schema.ts                 # Zod schema for AI response
 │   └── utils.ts                  # Utility functions
@@ -125,7 +135,7 @@ The `/api/generate` endpoint:
 1. Validates the incoming URL
 2. Fetches the webpage content
 3. Uses Cheerio to extract text (removes scripts, styles, nav, footer)
-4. Sends content to OpenAI GPT-4o-mini with structured output
+4. Sends content to Google Gemini (gemini-1.5-flash) with structured output
 5. Returns validated JSON matching the Zod schema
 
 ## 📝 Zod Schema
