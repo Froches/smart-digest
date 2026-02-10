@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateObject } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { google } from "@ai-sdk/google";
 import * as cheerio from "cheerio";
 import { digestSchema } from "@/lib/schema";
 
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     // Generate structured summary using AI
     const result = await generateObject({
-      model: openai("gpt-4o-mini"),
+      model: google("gemini-1.5-flash"),
       schema: digestSchema,
       prompt: `Analyze the following webpage content and create a comprehensive digest.
 
