@@ -1,6 +1,14 @@
 # 🧠 Smart Digest
 
-A modern web application that transforms any article into a structured summary with an interactive quiz using AI. Built with Next.js 15, TypeScript, and OpenAI's GPT-4o-mini.
+A modern web application that transforms any article into a structured summary with an interactive quiz using AI. Built with Next.js 15, TypeScript, and Google Gemini AI.
+
+## 🔥 Technical Features
+
+- **Type-Safe AI Integration**: Vercel AI SDK with Zod schema validation ensures guaranteed response structure
+- **Intelligent Web Scraping**: Cheerio-based content extraction with multi-stage cleaning pipeline
+- **SSR-Safe State Management**: Custom localStorage hook with hydration-proof architecture
+- **Structured AI Output**: [`generateObject`](https://sdk.vercel.ai/docs) API enforces exact JSON schema compliance
+- **Zero Runtime Errors**: End-to-end TypeScript + Zod validation from API to UI
 
 ## ✨ Features
 
