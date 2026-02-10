@@ -4,19 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sparkles,
   Loader2,
   CheckCircle2,
-  XCircle,
   Link as LinkIcon,
   Trash2,
   History,
@@ -24,6 +17,9 @@ import {
 import type { DigestResult } from "@/lib/schema";
 import { useHistory, type HistoryItem } from "@/hooks/useHistory";
 import { HistoryCard } from "@/components/history-card";
+import { ModeToggle } from "@/components/mode-toggle";
+import { HowToUse } from "@/components/how-to-use";
+import { InteractiveQuiz } from "@/components/interactive-quiz";
 
 export default function Home() {
   const [url, setUrl] = useState("");
@@ -31,10 +27,6 @@ export default function Home() {
   const [activeResult, setActiveResult] = useState<DigestResult | null>(null);
   const [activeUrl, setActiveUrl] = useState("");
   const [error, setError] = useState("");
-  const [selectedAnswers, setSelectedAnswers] = useState<
-    Record<number, number>
-  >({});
-  const [showResults, setShowResults] = useState(false);
 
   const { history, isHydrated, addToHistory, removeFromHistory, clearHistory } =
     useHistory();
@@ -49,8 +41,6 @@ export default function Home() {
     setError("");
     setActiveResult(null);
     setActiveUrl(url);
-    setSelectedAnswers({});
-    setShowResults(false);
 
     try {
       const response = await fetch("/api/generate", {
@@ -87,8 +77,6 @@ export default function Home() {
   const handleViewHistory = (item: HistoryItem) => {
     setActiveResult(item);
     setActiveUrl(item.url);
-    setSelectedAnswers({});
-    setShowResults(false);
     // Scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -96,62 +84,43 @@ export default function Home() {
   const handleClearActive = () => {
     setActiveResult(null);
     setActiveUrl("");
-    setSelectedAnswers({});
-    setShowResults(false);
     setError("");
   };
 
-  const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
-    if (!showResults) {
-      setSelectedAnswers((prev) => ({
-        ...prev,
-        [questionIndex]: answerIndex,
-      }));
-    }
-  };
-
-  const handleSubmitQuiz = () => {
-    setShowResults(true);
-  };
-
-  const calculateScore = () => {
-    if (!activeResult) return 0;
-    let correct = 0;
-    activeResult.quiz.forEach((q, idx) => {
-      if (selectedAnswers[idx] === q.correctAnswer) {
-        correct++;
-      }
-    });
-    return correct;
-  };
-
   return (
-    <div className="min-h-screen bg-linear-to-b from-background to-secondary/20">
-      <div className="container max-w-7xl mx-auto px-4 py-16">
+    <div className="min-h-screen bg-linear-to-b from-background via-background to-secondary/10">
+      <div className="container max-w-7xl mx-auto px-4 py-8">
+        {/* Top Navigation */}
+        <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-7 h-7 text-primary" />
+            <h1 className="text-3xl font-bold tracking-tight">Smart Digest</h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <HowToUse />
+            <ModeToggle />
+          </div>
+        </div>
+
         {/* Hero Section - Input & Active Result */}
         <div className="max-w-4xl mx-auto mb-16">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Sparkles className="w-8 h-8 text-primary" />
-              <h1 className="text-4xl font-bold tracking-tight">
-                Smart Digest
-              </h1>
-            </div>
+          {/* Tagline */}
+          <div className="text-center mb-10">
             <p className="text-muted-foreground text-lg">
-              Transform any article into a structured summary and quiz
+              Transform any technical article into a structured summary and
+              interactive quiz
             </p>
           </div>
 
           {/* Input Section */}
-          <Card className="mb-8 border-border/50">
+          <Card className="mb-8 border-border/50 shadow-lg">
             <CardContent className="pt-6">
               <div className="flex gap-3">
                 <div className="relative flex-1">
                   <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     type="url"
-                    placeholder="Enter article URL..."
+                    placeholder="Paste a technical article URL..."
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
@@ -163,7 +132,7 @@ export default function Home() {
                   onClick={handleGenerate}
                   disabled={loading}
                   size="lg"
-                  className="min-w-30"
+                  className="min-w-32 gap-2"
                 >
                   {loading ? (
                     <>
@@ -179,10 +148,7 @@ export default function Home() {
                 </Button>
               </div>
               {error && (
-                <p className="text-sm text-destructive mt-3 flex items-center gap-2">
-                  <XCircle className="w-4 h-4" />
-                  {error}
-                </p>
+                <p className="text-sm text-destructive mt-3">{error}</p>
               )}
             </CardContent>
           </Card>
@@ -205,6 +171,7 @@ export default function Home() {
                     onClick={handleClearActive}
                     variant="outline"
                     size="sm"
+                    className="gap-2"
                   >
                     <Trash2 className="w-4 h-4" />
                     Clear
@@ -213,17 +180,20 @@ export default function Home() {
 
                 {/* URL Display */}
                 {activeUrl && (
-                  <Card className="border-border/50 bg-muted/30">
+                  <Card className="border-primary/20 bg-primary/5 shadow-sm ring-2 ring-primary/10">
                     <CardContent className="pt-4 pb-4">
                       <p className="text-sm text-muted-foreground break-all">
-                        <span className="font-medium">Source:</span> {activeUrl}
+                        <span className="font-medium text-foreground">
+                          Source:
+                        </span>{" "}
+                        {activeUrl}
                       </p>
                     </CardContent>
                   </Card>
                 )}
 
                 {/* Title */}
-                <Card className="border-border/50">
+                <Card className="border-border/50 shadow-md">
                   <CardHeader>
                     <CardTitle className="text-2xl">
                       {activeResult.title}
@@ -232,9 +202,9 @@ export default function Home() {
                 </Card>
 
                 {/* Summary */}
-                <Card className="border-border/50">
+                <Card className="border-border/50 shadow-md">
                   <CardHeader>
-                    <CardTitle className="text-xl">Summary</CardTitle>
+                    <CardTitle className="text-xl">Executive Summary</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     {activeResult.summary.map((paragraph, idx) => (
@@ -249,12 +219,12 @@ export default function Home() {
                 </Card>
 
                 {/* Key Takeaways */}
-                <Card className="border-border/50">
+                <Card className="border-border/50 shadow-md">
                   <CardHeader>
-                    <CardTitle className="text-xl">Key Takeaways</CardTitle>
+                    <CardTitle className="text-xl">Key Concepts</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <ul className="space-y-2">
+                    <ul className="space-y-3">
                       {activeResult.keyTakeaways.map((takeaway, idx) => (
                         <li key={idx} className="flex items-start gap-3">
                           <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -267,82 +237,8 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                {/* Quiz */}
-                <Card className="border-border/50">
-                  <CardHeader>
-                    <CardTitle className="text-xl">Knowledge Check</CardTitle>
-                    <CardDescription>
-                      Test your understanding with these questions
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {activeResult.quiz.map((question, qIdx) => (
-                      <div key={qIdx} className="space-y-3">
-                        <h3 className="font-medium">
-                          {qIdx + 1}. {question.question}
-                        </h3>
-                        <div className="space-y-2">
-                          {question.options.map((option, oIdx) => {
-                            const isSelected = selectedAnswers[qIdx] === oIdx;
-                            const isCorrect = oIdx === question.correctAnswer;
-                            const showCorrect = showResults && isCorrect;
-                            const showIncorrect =
-                              showResults && isSelected && !isCorrect;
-
-                            return (
-                              <button
-                                key={oIdx}
-                                onClick={() => handleAnswerSelect(qIdx, oIdx)}
-                                disabled={showResults}
-                                className={`w-full text-left px-4 py-3 rounded-md border transition-all ${
-                                  showCorrect
-                                    ? "bg-green-500/10 border-green-500/50 text-green-700 dark:text-green-400"
-                                    : showIncorrect
-                                      ? "bg-destructive/10 border-destructive/50 text-destructive"
-                                      : isSelected
-                                        ? "bg-primary/10 border-primary"
-                                        : "bg-card border-border/50 hover:border-border hover:bg-accent"
-                                }`}
-                              >
-                                <div className="flex items-center justify-between">
-                                  <span>{option}</span>
-                                  {showCorrect && (
-                                    <CheckCircle2 className="w-5 h-5" />
-                                  )}
-                                  {showIncorrect && (
-                                    <XCircle className="w-5 h-5" />
-                                  )}
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-
-                    {!showResults &&
-                      Object.keys(selectedAnswers).length === 3 && (
-                        <Button
-                          onClick={handleSubmitQuiz}
-                          className="w-full"
-                          size="lg"
-                        >
-                          Submit Quiz
-                        </Button>
-                      )}
-
-                    {showResults && (
-                      <Card className="bg-primary/5 border-primary/20">
-                        <CardContent className="pt-6">
-                          <p className="text-center text-lg font-medium">
-                            Your Score: {calculateScore()} /{" "}
-                            {activeResult.quiz.length}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    )}
-                  </CardContent>
-                </Card>
+                {/* Interactive Quiz */}
+                <InteractiveQuiz questions={activeResult.quiz} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -359,7 +255,12 @@ export default function Home() {
                   ({history.length})
                 </span>
               </div>
-              <Button onClick={clearHistory} variant="outline" size="sm">
+              <Button
+                onClick={clearHistory}
+                variant="outline"
+                size="sm"
+                className="gap-2"
+              >
                 <Trash2 className="w-4 h-4" />
                 Clear All
               </Button>
