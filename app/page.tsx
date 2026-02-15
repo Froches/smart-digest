@@ -20,6 +20,7 @@ import { HistoryCard } from "@/components/history-card";
 import { ModeToggle } from "@/components/mode-toggle";
 import { HowToUse } from "@/components/how-to-use";
 import { InteractiveQuiz } from "@/components/interactive-quiz";
+import { VerificationBadge } from "@/components/verification-badge";
 
 export default function Home() {
   const [url, setUrl] = useState("");
@@ -110,7 +111,9 @@ export default function Home() {
         <div className="flex items-center justify-between mb-12">
           <div className="flex items-center gap-2 group/logo cursor-default">
             <Sparkles className="w-7 h-7 text-primary transition-all duration-300 group-hover/logo:rotate-12 group-hover/logo:scale-110 group-hover/logo:text-primary/80" />
-            <h1 className="text-3xl font-bold tracking-tight">Smart Digest</h1>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Verified Intelligence
+            </h1>
           </div>
           <div className="flex items-center gap-2">
             <HowToUse showTrigger />
@@ -130,8 +133,8 @@ export default function Home() {
           {/* Tagline */}
           <div className="text-center mb-10">
             <p className="text-muted-foreground text-lg">
-              Transform any technical article into a structured summary and
-              interactive quiz
+              Transform articles into tamper-proof verified intelligence with
+              cryptographic audit trails
             </p>
           </div>
 
@@ -196,7 +199,9 @@ export default function Home() {
               >
                 {/* Active Result Header with Clear Button */}
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-2xl font-semibold">Active Digest</h2>
+                  <h2 className="text-2xl font-semibold">
+                    Verified Event Record
+                  </h2>
                   <Button
                     onClick={handleClearActive}
                     variant="outline"
@@ -222,6 +227,13 @@ export default function Home() {
                   </Card>
                 )}
 
+                {/* Verification Badge */}
+                {activeResult.verification_metadata && (
+                  <VerificationBadge
+                    metadata={activeResult.verification_metadata}
+                  />
+                )}
+
                 {/* Title */}
                 <Card className="border-border/50 shadow-md hover:shadow-lg hover:border-border transition-all duration-300">
                   <CardHeader>
@@ -234,7 +246,9 @@ export default function Home() {
                 {/* Summary */}
                 <Card className="border-border/50 shadow-md hover:shadow-lg hover:border-border transition-all duration-300">
                   <CardHeader>
-                    <CardTitle className="text-xl">Executive Summary</CardTitle>
+                    <CardTitle className="text-xl">
+                      Verified Intelligence Summary
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     {activeResult.summary.map((paragraph, idx) => (
@@ -254,7 +268,7 @@ export default function Home() {
                 {/* Key Takeaways */}
                 <Card className="border-border/50 shadow-md hover:shadow-lg hover:border-border transition-all duration-300">
                   <CardHeader>
-                    <CardTitle className="text-xl">Key Concepts</CardTitle>
+                    <CardTitle className="text-xl">Verified Insights</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3">
@@ -289,9 +303,9 @@ export default function Home() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2 group/history cursor-default">
                 <History className="w-6 h-6 text-primary transition-all duration-300 group-hover/history:scale-110 group-hover/history:rotate-12" />
-                <h2 className="text-2xl font-bold">Previous Digests</h2>
+                <h2 className="text-2xl font-bold">Verification Audit Trail</h2>
                 <span className="text-muted-foreground text-sm">
-                  ({history.length})
+                  ({history.length} verified events)
                 </span>
               </div>
               <Button

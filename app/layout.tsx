@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Smart Digest - AI-Powered Article Summaries",
+  title: "Verified Intelligence - Tamper-Proof Content Analysis",
   description:
-    "Transform any article into a structured summary and quiz using AI",
+    "Transform articles into verified intelligence with cryptographic audit trails and content integrity verification",
 };
 
 export default function RootLayout({

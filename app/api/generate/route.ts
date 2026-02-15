@@ -4,6 +4,7 @@ import { google } from "@ai-sdk/google";
 import * as cheerio from "cheerio";
 import { digestSchema, type DigestResult } from "@/lib/schema";
 import { redis, ratelimit, getCacheKey, STATS_KEYS } from "@/lib/redis";
+import { generateContentHashSync } from "@/lib/crypto";
 
 // Helper to get client IP
 function getClientIp(req: NextRequest): string {
@@ -143,6 +144,16 @@ export async function POST(req: NextRequest) {
     );
 
     // ============================================
+    // 4.5 VERIFICATION INFRASTRUCTURE - Generate Content Hash
+    // ============================================
+    const scrapeTimestamp = Date.now();
+    const contentHash = generateContentHashSync(bodyText);
+
+    console.log(
+      `[VERIFICATION] Generated content hash: ${contentHash.substring(0, 16)}...`,
+    );
+
+    // ============================================
     // 5. AI GENERATION with ERROR TRACKING
     // ============================================
     console.log(`[AI_GENERATION] Calling Gemini API for: ${normalizedUrl}`);
@@ -163,10 +174,23 @@ Please provide:
 3. 3-5 key takeaways as bullet points
 4. Exactly 3 multiple-choice quiz questions with 4 options each
 
-Make the quiz questions meaningful and test understanding of the main concepts.`,
+Make the quiz questions meaningful and test understanding of the main concepts.
+
+IMPORTANT: You must include a verification_metadata object with:
+- source_url: "${normalizedUrl}"
+- scrape_timestamp: ${scrapeTimestamp}
+- content_hash: "${contentHash}"`,
     });
 
     const digest = result.object;
+
+    // Ensure verification metadata is included (override AI output for security)
+    digest.verification_metadata = {
+      source_url: normalizedUrl,
+      scrape_timestamp: scrapeTimestamp,
+      content_hash: contentHash,
+    };
+
     const processingTime = Date.now() - startTime;
 
     console.log(

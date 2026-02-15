@@ -1,14 +1,16 @@
-# 🧠 Smart Digest
+# 🧠 Verified Intelligence
 
-A modern web application that transforms any article into a structured summary with an interactive quiz using AI. Built with Next.js 15, TypeScript, and Google Gemini AI.
+A verification infrastructure platform that transforms articles into tamper-proof verified intelligence with cryptographic audit trails. Built with Next.js 15, TypeScript, and Google Gemini AI.
 
 ## 🔥 Technical Features
 
+- **Cryptographic Verification**: SHA-256 content hashing creates immutable fingerprints for tamper detection
 - **Type-Safe AI Integration**: Vercel AI SDK with Zod schema validation ensures guaranteed response structure
 - **Intelligent Web Scraping**: Cheerio-based content extraction with multi-stage cleaning pipeline
 - **SSR-Safe State Management**: Custom localStorage hook with hydration-proof architecture
 - **Structured AI Output**: [`generateObject`](https://sdk.vercel.ai/docs) API enforces exact JSON schema compliance
 - **Zero Runtime Errors**: End-to-end TypeScript + Zod validation from API to UI
+- **Content Integrity Verification**: Real-time re-verification against stored cryptographic hashes
 
 ## 🏢 Production Features
 
@@ -20,10 +22,14 @@ A modern web application that transforms any article into a structured summary w
 
 ## ✨ Features
 
-- **URL-based Content Extraction**: Simply paste any article URL
-- **AI-Powered Summaries**: Get concise, structured summaries with key takeaways powered by Google Gemini
-- **Interactive Quiz**: Test your understanding with 3 auto-generated questions
-- **Persistent History**: All digests automatically saved to localStorage with full browsing capability
+- **Verification Infrastructure**: Cryptographic SHA-256 hashing creates tamper-proof content fingerprints
+- **Immutable Audit Trail**: Every intelligence event includes source URL, timestamp, and content hash
+- **URL-based Content Extraction**: Simply paste any article URL for verified analysis
+- **AI-Powered Verified Intelligence**: Get concise, structured summaries with cryptographic verification
+- **Content Integrity Verification**: Real-time button to re-verify content hasn't been tampered with
+- **Interactive Quiz**: Test understanding with 3 auto-generated questions
+- **Persistent Verification Ledger**: All verified events saved to localStorage with full audit trail
+- **Security Badge**: Visual trust indicator showing verification metadata
 - **Smooth Animations**: Framer Motion powered transitions and effects
 - **Dark Mode**: Beautiful Linear.app-inspired dark interface
 - **Type-Safe**: Built with TypeScript and Zod schema validation
@@ -117,12 +123,14 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 1. Enter any article URL in the input field
 2. Click "Generate" or press Enter
 3. Wait for the AI to process and analyze the content
-4. Review the summary and key takeaways
-5. Take the quiz to test your understanding
-6. Submit to see your score
-7. **Browse your history** - All digests are automatically saved
-8. Click "View" on any history card to restore it to the active slot
-9. Use "Clear" to remove the active digest or "Clear All" for history
+4. **View the Security Badge** - See cryptographic verification metadata
+5. Review the verified intelligence summary and insights
+6. **Click "Verify Integrity"** - Re-verify content hasn't been tampered with
+7. Take the quiz to test your understanding
+8. Submit to see your score
+9. **Browse your Verification Audit Trail** - All verified events are automatically saved
+10. Click "View" on any audit trail card to restore it to the active slot
+11. Use "Clear" to remove the active record or "Clear All" for history
 
 ### Admin Dashboard
 
